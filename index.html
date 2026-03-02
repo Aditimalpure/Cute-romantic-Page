@@ -1,116 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Our Love Story 💕</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Cute Romantic Page 💕</title>
 
 <style>
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
+
+/* ===== BODY STYLE ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(to bottom, #ffc0cb, #ff69b4);
-    text-align:center;
-    color:white;
-    overflow-x:hidden;
+    text-align: center;
+    color: white;
+    overflow-x: hidden;
 }
 
-/* Password Screen */
-#passwordScreen{
-    position:fixed;
-    width:100%;
-    height:100vh;
-    background:#ff1493;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
+/* ===== PASSWORD SCREEN ===== */
+#passwordScreen {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #ff1493;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-input{
-    padding:12px;
-    border:none;
-    border-radius:20px;
-    font-size:18px;
-    margin:10px;
+#passwordScreen h2 {
+    font-size: 28px;
 }
 
-button{
-    padding:12px 25px;
-    border:none;
-    border-radius:25px;
-    font-size:18px;
-    cursor:pointer;
-    background:white;
-    color:#ff1493;
-    font-weight:bold;
+input {
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    font-size: 18px;
+    margin: 15px;
+    text-align: center;
 }
 
-#mainContent{
-    display:none;
-    padding:30px;
+button {
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    background: white;
+    color: #ff1493;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Floating Hearts */
-.heart{
-    position:fixed;
-    bottom:-10px;
-    animation:floatUp 8s linear infinite;
+button:hover {
+    background: #ffe4ec;
 }
 
-@keyframes floatUp{
-    0%{transform:translateY(0);opacity:1;}
-    100%{transform:translateY(-100vh);opacity:0;}
+/* ===== MAIN CONTENT ===== */
+#mainContent {
+    display: none;
+    padding: 30px;
 }
 
-/* Gallery */
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:15px;
-    margin-top:20px;
+/* ===== FLOATING HEARTS ===== */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: floatUp 8s linear infinite;
 }
 
-.gallery img{
-    width:100%;
-    border-radius:20px;
-    transition:0.4s;
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
 }
 
-.gallery img:hover{
-    transform:scale(1.05);
+/* ===== GALLERY ===== */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
 }
 
-/* Love Story */
-.story{
-    margin-top:40px;
-    background:#ff1493;
-    padding:25px;
-    border-radius:25px;
+.gallery img {
+    width: 100%;
+    border-radius: 20px;
+    transition: 0.4s;
 }
 
-/* Dance */
-.dance{
-    font-size:60px;
-    animation:dance 0.5s infinite alternate;
+.gallery img:hover {
+    transform: scale(1.05);
 }
 
-@keyframes dance{
-    from{transform:rotate(-15deg);}
-    to{transform:rotate(15deg);}
+/* ===== LOVE STORY ===== */
+.story {
+    margin-top: 40px;
+    background: #ff1493;
+    padding: 25px;
+    border-radius: 25px;
 }
+
+/* ===== DANCE ANIMATION ===== */
+.dance {
+    font-size: 60px;
+    animation: dance 0.5s infinite alternate;
+}
+
+@keyframes dance {
+    from { transform: rotate(-15deg); }
+    to { transform: rotate(15deg); }
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD SCREEN -->
+<!-- ===== PASSWORD SCREEN ===== -->
 <div id="passwordScreen">
     <h2>Enter Our Lucky Number 💖</h2>
     <input type="password" id="passwordInput" placeholder="Lucky Number">
     <button onclick="checkPassword()">Enter</button>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- ===== MAIN CONTENT ===== -->
 <div id="mainContent">
 
 <h1>Welcome My Love 💕</h1>
@@ -119,18 +135,18 @@ button{
 <div class="gallery" id="photoGallery"></div>
 
 <div class="story">
-<h2>Our Love Story 💌</h2>
-<p>
-From strangers to forever 💖  
-Every smile, every laugh made us stronger.  
-With you, life feels magical and peaceful.  
-You are my today, tomorrow and always. 💕
-</p>
+    <h2>Our Love Story 💌</h2>
+    <p>
+        From strangers to forever 💖 <br><br>
+        Every smile, every laugh, every small fight made our bond stronger. <br><br>
+        With you, life feels magical and peaceful. <br><br>
+        You are my today, tomorrow and always. 💕
+    </p>
 </div>
 
 <div style="margin-top:40px;">
-<h2>Will You Be My Valentine? 💘</h2>
-<button onclick="sayYes()">YES 💖</button>
+    <h2>Will You Be My Valentine? 💘</h2>
+    <button onclick="sayYes()">YES 💖</button>
 </div>
 
 <div id="result"></div>
@@ -139,11 +155,36 @@ You are my today, tomorrow and always. 💕
 
 <script>
 
-// 🔐 PASSWORD IS ALREADY SET TO 1904
-const correctPassword = "1904";
+/* ===== PASSWORD (ALREADY SET TO 1904) ===== */
+function checkPassword() {
+    var entered = document.getElementById("passwordInput").value.trim();
+    if (entered === "1904") {
+        document.getElementById("passwordScreen").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+        startHearts();
+    } else {
+        alert("Wrong Lucky Number 😜");
+    }
+}
 
-// 📸 Add photo file names here later
-const photos = [
+/* ===== FLOATING HEART BACKGROUND ===== */
+function startHearts() {
+    setInterval(function () {
+        var heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(function () {
+            heart.remove();
+        }, 8000);
+    }, 500);
+}
+
+/* ===== PHOTO GALLERY (ADD NAMES LATER) ===== */
+var photos = [
     "photo1.jpg",
     "photo2.jpg",
     "photo3.jpg",
@@ -152,56 +193,32 @@ const photos = [
     "photo6.jpg"
 ];
 
-const gallery = document.getElementById("photoGallery");
-photos.forEach(photo=>{
-    const img=document.createElement("img");
-    img.src=photo;
+var gallery = document.getElementById("photoGallery");
+
+photos.forEach(function(photo) {
+    var img = document.createElement("img");
+    img.src = photo;
     gallery.appendChild(img);
 });
 
-// Password Check
-function checkPassword(){
-    let entered=document.getElementById("passwordInput").value;
-    if(entered==="1904"){
-        document.getElementById("passwordScreen").style.display="none";
-        document.getElementById("mainContent").style.display="block";
-        startHearts();
-    }else{
-        alert("Wrong Lucky Number 😜");
-    }
-}
+/* ===== YES BUTTON EFFECT ===== */
+function sayYes() {
+    document.body.style.background = "#ff1493";
+    document.getElementById("result").innerHTML =
+        "<h1>I Love You So Muchhhh 💕</h1>" +
+        "<div class='dance'>💃🕺</div>" +
+        "<h2>Forever Mine 💖</h2>";
 
-// Floating Hearts
-function startHearts(){
-    setInterval(()=>{
-        let heart=document.createElement("div");
-        heart.className="heart";
-        heart.innerHTML="💖";
-        heart.style.left=Math.random()*100+"vw";
-        heart.style.fontSize=(Math.random()*20+20)+"px";
-        document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),8000);
-    },500);
-}
-
-// YES Button Effect
-function sayYes(){
-    document.body.style.background="#ff1493";
-    document.getElementById("result").innerHTML=`
-        <h1>I Love You So Muchhhh 💕</h1>
-        <div class="dance">💃🕺</div>
-        <h2>Forever Mine 💖</h2>
-    `;
-
-    for(let i=0;i<60;i++){
-        let heart=document.createElement("div");
-        heart.className="heart";
-        heart.innerHTML="💖";
-        heart.style.left=Math.random()*100+"vw";
-        heart.style.fontSize=(Math.random()*30+30)+"px";
+    for (var i = 0; i < 60; i++) {
+        var heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 30 + 30) + "px";
         document.body.appendChild(heart);
     }
 }
+
 </script>
 
 </body>
