@@ -260,3 +260,225 @@ canvas{
 </div>
 
 <canvas id="confetti"></canvas>
+  <script>
+
+/* Floating Hearts */
+for(let i=0;i<35;i++){
+  let heart=document.createElement("span");
+  heart.innerHTML="❤";
+  heart.style.left=Math.random()*100+"%";
+  heart.style.fontSize=(15+Math.random()*20)+"px";
+  heart.style.animationDuration=(5+Math.random()*5)+"s";
+  document.getElementById("heartBg").appendChild(heart);
+}
+
+let currentStep=0;
+let events=[];
+let uploadedImages=[];
+let secretClicks=0;
+
+/* PASSWORD */
+function checkPassword(){
+  if(passwordInput.value==="1904"){
+    passwordPage.classList.add("hidden");
+
+    if(new URLSearchParams(window.location.search).get("data")){
+      loadData();
+    } else {
+      formSection.classList.remove("hidden");
+    }
+  }else{
+    alert("Wrong Password 💔");
+  }
+}
+
+/* STEP NAVIGATION */
+function nextStep(){
+  let steps=document.querySelectorAll(".step");
+  steps[currentStep].classList.add("hidden");
+  currentStep++;
+  steps[currentStep].classList.remove("hidden");
+}
+
+function prevStep(){
+  let steps=document.querySelectorAll(".step");
+  steps[currentStep].classList.add("hidden");
+  currentStep--;
+  steps[currentStep].classList.remove("hidden");
+}
+
+/* LOVE STORY EVENTS */
+function addEvent(){
+  document.getElementById("eventForm").classList.remove("hidden");
+}
+
+function saveEvent(){
+  if(events.length>=3){
+    alert("You can only add 3 love stories 💕");
+    return;
+  }
+
+  let eventData={
+    date:eventDate.value,
+    title:eventTitle.value,
+    desc:eventDesc.value
+  };
+
+  events.push(eventData);
+
+  let box=document.createElement("div");
+  box.className="event-box";
+  box.innerHTML="<b>"+eventData.date+" - "+eventData.title+"</b><p>"+eventData.desc+"</p>";
+  eventList.appendChild(box);
+
+  eventForm.classList.add("hidden");
+  eventDate.value="";
+  eventTitle.value="";
+  eventDesc.value="";
+}
+
+/* PHOTO UPLOAD (MAX 6) */
+photos.addEventListener("change",function(){
+  preview.innerHTML="";
+  uploadedImages=[];
+
+  let files=Array.from(this.files).slice(0,6);
+
+  files.forEach(file=>{
+    let reader=new FileReader();
+    reader.onload=e=>{
+      uploadedImages.push(e.target.result);
+      preview.innerHTML+=`<img src="${e.target.result}" class="preview">`;
+    }
+    reader.readAsDataURL(file);
+  });
+});
+
+/* GENERATE LINK */
+function generateLink(){
+  const data=btoa(JSON.stringify({
+    partner:partner.value,
+    sender:sender.value,
+    date:date.value,
+    events:events,
+    letter:letter.value,
+    reasons:[reason1.value,reason2.value,reason3.value],
+    dreams:[dream1.value,dream2.value,dream3.value],
+    secret:secret.value,
+    images:uploadedImages
+  }));
+
+  const link=location.href.split("?")[0]+"?data="+data;
+  prompt("Copy this Romantic Link 💕",link);
+}
+
+/* LOAD DISPLAY PAGE */
+function loadData(){
+  formSection.classList.add("hidden");
+  displaySection.classList.remove("hidden");
+
+  const data=JSON.parse(atob(new URLSearchParams(window.location.search).get("data")));
+
+  title.innerText=data.sender+" ❤️ "+data.partner;
+  showDate.innerText=data.date;
+
+  /* Events */
+  data.events.forEach(ev=>{
+    showEvents.innerHTML+=
+      `<div class="event-box">
+         <b>${ev.date} - ${ev.title}</b>
+         <p>${ev.desc}</p>
+       </div>`;
+  });
+
+  /* Images */
+  data.images.forEach(img=>{
+    showImages.innerHTML+=`<img src="${img}" class="preview">`;
+  });
+
+  /* Letter */
+  showLetter.innerText=data.letter;
+
+  /* Reasons */
+  data.reasons.forEach(r=>{
+    if(r.trim()!==""){
+      showReasons.innerHTML+=`<li>${r}</li>`;
+    }
+  });
+
+  /* Dreams */
+  data.dreams.forEach(d=>{
+    if(d.trim()!==""){
+      showDreams.innerHTML+=`<li>${d}</li>`;
+    }
+  });
+
+  window.secretMessage=data.secret;
+
+  /* Show Proposal AFTER everything loads */
+  setTimeout(()=>{
+    proposalSection.classList.remove("hidden");
+  },1000);
+}
+
+/* SECRET MESSAGE */
+function secretClick(){
+  secretClicks++;
+  if(secretClicks===5){
+    secretDisplay.innerText=window.secretMessage;
+  }
+}
+
+/* PROPOSAL YES */
+function sayYes(){
+  celebration.style.display="block";
+  rejection.style.display="none";
+  startConfetti();
+}
+
+/* PROPOSAL NO */
+function sayNo(){
+  rejection.style.display="block";
+  celebration.style.display="none";
+}
+
+/* MOVING NO BUTTON */
+noBtn.addEventListener("mouseover",function(){
+  this.style.position="relative";
+  this.style.left=Math.random()*200-100+"px";
+});
+
+/* CONFETTI */
+function startConfetti(){
+  const canvas=document.getElementById("confetti");
+  const ctx=canvas.getContext("2d");
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  let pieces=[];
+  for(let i=0;i<120;i++){
+    pieces.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*6+2
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="pink";
+    pieces.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+      p.y+=3;
+      if(p.y>canvas.height) p.y=0;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+}
+
+</script>
+  
