@@ -12,20 +12,19 @@ body{
   overflow-x:hidden;
 }
 
-/* Floating Hearts */
+/* Floating Hearts Background */
 .heart-bg{
   position:fixed;
   width:100%;
   height:100%;
-  pointer-events:none;
   z-index:-1;
+  overflow:hidden;
 }
 
 .heart-bg span{
   position:absolute;
-  color:#ff4da6;
-  animation: float 10s linear infinite;
-  font-size:20px;
+  color:#ff3399;
+  animation:float 10s linear infinite;
 }
 
 @keyframes float{
@@ -35,12 +34,12 @@ body{
 
 .container{
   width:90%;
-  max-width:800px;
+  max-width:900px;
   margin:40px auto;
   background:#ffe6f2;
   padding:25px;
   border-radius:20px;
-  box-shadow:0 8px 25px rgba(255,0,102,0.3);
+  box-shadow:0 10px 30px rgba(255,0,102,0.3);
 }
 
 h2{
@@ -56,6 +55,10 @@ input, textarea{
   border:2px solid #ff99cc;
 }
 
+textarea{
+  min-height:120px;
+}
+
 button{
   padding:10px 20px;
   border:none;
@@ -67,15 +70,20 @@ button{
   font-weight:bold;
 }
 
-button:hover{
-  opacity:0.8;
-}
+button:hover{opacity:0.85;}
 
 .hidden{display:none;}
 .nav{text-align:right;}
 
-img.preview{
-  width:100px;
+.event-box{
+  background:white;
+  padding:10px;
+  margin:10px 0;
+  border-radius:10px;
+}
+
+.preview{
+  width:120px;
   margin:5px;
   border-radius:10px;
 }
@@ -95,12 +103,12 @@ img.preview{
 
 .proposal{
   text-align:center;
-  margin-top:30px;
+  margin-top:40px;
 }
 
 .cartoons{
   font-size:60px;
-  animation:dance 0.5s infinite alternate;
+  animation:dance 0.6s infinite alternate;
 }
 
 @keyframes dance{
@@ -109,9 +117,15 @@ img.preview{
 }
 
 #celebration,#rejection{display:none;}
+
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  pointer-events:none;
+}
 </style>
 </head>
-
 <body>
 
 <div class="heart-bg" id="heartBg"></div>
@@ -123,8 +137,10 @@ img.preview{
 <button onclick="checkPassword()">Enter</button>
 </div>
 
-<!-- FORM -->
+<!-- FORM SECTION -->
 <div id="formSection" class="hidden">
+
+<!-- PAGE 1 -->
 <div class="container step">
 <h2>Basic Details 💕</h2>
 <input id="partner" placeholder="Partner Name">
@@ -136,20 +152,32 @@ img.preview{
 </div>
 </div>
 
+<!-- PAGE 2 LOVE STORY -->
 <div class="container step hidden">
-<h2>Our 3 Love Stories 💌</h2>
-<textarea id="story1" placeholder="Love Story 1"></textarea>
-<textarea id="story2" placeholder="Love Story 2"></textarea>
-<textarea id="story3" placeholder="Love Story 3"></textarea>
+<h2>Our Love Story 💌</h2>
+<div style="text-align:right;">
+<button onclick="addEvent()">+ Add New Event</button>
+</div>
+
+<div id="eventForm" class="hidden">
+<input id="eventDate" placeholder="Event Date">
+<input id="eventTitle" placeholder="Event Title">
+<textarea id="eventDesc" placeholder="Event Description"></textarea>
+<button onclick="saveEvent()">Add Event</button>
+</div>
+
+<div id="eventList"></div>
+
 <div class="nav">
 <button onclick="prevStep()">Back</button>
 <button onclick="nextStep()">Next →</button>
 </div>
 </div>
 
+<!-- PAGE 3 PHOTOS -->
 <div class="container step hidden">
-<h2>Upload Memories 📸</h2>
-<input type="file" id="photos" multiple>
+<h2>Upload Memories (Max 6 Photos) 📸</h2>
+<input type="file" id="photos" multiple accept="image/*">
 <div id="preview"></div>
 <div class="nav">
 <button onclick="prevStep()">Back</button>
@@ -157,30 +185,40 @@ img.preview{
 </div>
 </div>
 
+<!-- PAGE 4 LETTER -->
 <div class="container step hidden">
-<h2>Love Letter & More 💖</h2>
-<textarea id="letter" placeholder="Love Letter"></textarea>
-<textarea id="reasons" placeholder="Why I love you (comma separated)"></textarea>
-<textarea id="dreams" placeholder="Future Bucket List (comma separated)"></textarea>
+<h2>Love Letter 💖</h2>
+<textarea id="letter" style="min-height:200px;" placeholder="Write your long romantic love letter..."></textarea>
+
+<h2>3 Reasons I Love You</h2>
+<input id="reason1" placeholder="Reason 1">
+<input id="reason2" placeholder="Reason 2">
+<input id="reason3" placeholder="Reason 3">
+
+<h2>Our Future Bucket List</h2>
+<input id="dream1" placeholder="Dream 1">
+<input id="dream2" placeholder="Dream 2">
+<input id="dream3" placeholder="Dream 3">
+
 <input id="secret" placeholder="Secret Hidden Message">
+
 <div class="nav">
 <button onclick="prevStep()">Back</button>
 <button onclick="generateLink()">Generate Romantic Link 💕</button>
 </div>
 </div>
+
 </div>
 
 <!-- DISPLAY PAGE -->
 <div id="displaySection" class="hidden">
 <div class="container">
-<h2 id="title"></h2>
 
+<h2 id="title"></h2>
 <p><b>Special Date:</b> <span id="showDate"></span></p>
 
-<h3>💌 Our Love Stories</h3>
-<p id="showStory1"></p>
-<p id="showStory2"></p>
-<p id="showStory3"></p>
+<h3>Our Love Story 💌</h3>
+<div id="showEvents"></div>
 
 <div id="showImages"></div>
 
@@ -190,19 +228,19 @@ img.preview{
 <p id="showLetter"></p>
 </div>
 <div class="right">
-<h3>Why I Love You</h3>
+<h3>Reasons I Love You</h3>
 <ul id="showReasons"></ul>
 <h3>Our Future</h3>
 <ul id="showDreams"></ul>
 </div>
 </div>
 
-<div style="text-align:center;">
+<div style="text-align:center;margin-top:20px;">
 <span style="font-size:30px;cursor:pointer;" onclick="secretClick()">❤️</span>
 <p id="secretDisplay"></p>
 </div>
 
-<div class="proposal">
+<div class="proposal hidden" id="proposalSection">
 <h2>Will You Be My Valentine? 💕</h2>
 <button onclick="sayYes()">YES 💖</button>
 <button id="noBtn" onclick="sayNo()">NO 😜</button>
@@ -221,125 +259,4 @@ img.preview{
 </div>
 </div>
 
-<script>
-
-/* Floating hearts */
-for(let i=0;i<30;i++){
-let span=document.createElement("span");
-span.innerHTML="❤";
-span.style.left=Math.random()*100+"%";
-span.style.animationDuration=5+Math.random()*5+"s";
-document.getElementById("heartBg").appendChild(span);
-}
-
-let current=0;
-let secretCount=0;
-let uploadedImages=[];
-
-function checkPassword(){
-if(passwordInput.value==="1904"){
-passwordPage.classList.add("hidden");
-if(new URLSearchParams(window.location.search).get("data")){
-loadData();
-}else{
-formSection.classList.remove("hidden");
-}
-}else{alert("Wrong Password");}
-}
-
-function nextStep(){
-let steps=document.querySelectorAll(".step");
-steps[current].classList.add("hidden");
-current++;
-steps[current].classList.remove("hidden");
-}
-
-function prevStep(){
-let steps=document.querySelectorAll(".step");
-steps[current].classList.add("hidden");
-current--;
-steps[current].classList.remove("hidden");
-}
-
-photos.addEventListener("change",function(){
-preview.innerHTML="";
-uploadedImages=[];
-Array.from(this.files).forEach(file=>{
-let reader=new FileReader();
-reader.onload=e=>{
-uploadedImages.push(e.target.result);
-preview.innerHTML+=`<img src="${e.target.result}" class="preview">`;
-}
-reader.readAsDataURL(file);
-});
-});
-
-function generateLink(){
-const data=btoa(JSON.stringify({
-partner:partner.value,
-sender:sender.value,
-date:date.value,
-story1:story1.value,
-story2:story2.value,
-story3:story3.value,
-letter:letter.value,
-reasons:reasons.value,
-dreams:dreams.value,
-secret:secret.value,
-images:uploadedImages
-}));
-
-const link=location.href.split("?")[0]+"?data="+data;
-prompt("Copy this link 💕",link);
-}
-
-function loadData(){
-formSection.classList.add("hidden");
-displaySection.classList.remove("hidden");
-
-const data=JSON.parse(atob(new URLSearchParams(window.location.search).get("data")));
-
-title.innerText=data.sender+" ❤️ "+data.partner;
-showDate.innerText=data.date;
-showStory1.innerText=data.story1;
-showStory2.innerText=data.story2;
-showStory3.innerText=data.story3;
-showLetter.innerText=data.letter;
-
-data.reasons.split(",").forEach(r=>{
-showReasons.innerHTML+=`<li>${r}</li>`;
-});
-data.dreams.split(",").forEach(d=>{
-showDreams.innerHTML+=`<li>${d}</li>`;
-});
-data.images.forEach(img=>{
-showImages.innerHTML+=`<img src="${img}" class="preview">`;
-});
-window.secretMsg=data.secret;
-}
-
-function secretClick(){
-secretCount++;
-if(secretCount==5){
-secretDisplay.innerText=window.secretMsg;
-}
-}
-
-function sayYes(){
-celebration.style.display="block";
-rejection.style.display="none";
-}
-
-function sayNo(){
-rejection.style.display="block";
-celebration.style.display="none";
-}
-
-noBtn.addEventListener("mouseover",function(){
-this.style.position="relative";
-this.style.left=Math.random()*200-100+"px";
-});
-
-</script>
-</body>
-</html>
+<canvas id="confetti"></canvas>
