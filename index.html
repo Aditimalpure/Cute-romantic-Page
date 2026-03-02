@@ -2,44 +2,65 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Our Love Story 💕</title>
+<title>Our Forever Love 💕</title>
 
 <style>
 body{
   margin:0;
   font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(to bottom,#ffe6f2,#ffd6eb);
+  background:#ffcce6;
+  overflow-x:hidden;
 }
 
-/* Containers */
+/* Floating Hearts */
+.heart-bg{
+  position:fixed;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.heart-bg span{
+  position:absolute;
+  color:#ff4da6;
+  animation: float 10s linear infinite;
+  font-size:20px;
+}
+
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:1;}
+  100%{transform:translateY(-10vh);opacity:0;}
+}
+
 .container{
   width:90%;
-  max-width:700px;
+  max-width:800px;
   margin:40px auto;
-  background:white;
+  background:#ffe6f2;
   padding:25px;
   border-radius:20px;
-  box-shadow:0 8px 25px rgba(255,0,102,0.2);
+  box-shadow:0 8px 25px rgba(255,0,102,0.3);
 }
 
 h2{
-  color:#cc0066;
   text-align:center;
+  color:#cc0066;
 }
 
 input, textarea{
   width:100%;
-  padding:12px;
+  padding:10px;
   margin:8px 0;
   border-radius:10px;
-  border:2px solid #ffb3d9;
+  border:2px solid #ff99cc;
 }
 
 button{
-  padding:12px 20px;
+  padding:10px 20px;
   border:none;
   border-radius:25px;
-  background:#ff0066;
+  background:#ff3399;
   color:white;
   cursor:pointer;
   margin:10px 5px;
@@ -47,283 +68,278 @@ button{
 }
 
 button:hover{
-  opacity:0.85;
+  opacity:0.8;
 }
 
-/* Navigation */
-.nav{
-  text-align:right;
-}
+.hidden{display:none;}
+.nav{text-align:right;}
 
-/* Hidden */
-.hidden{
-  display:none;
-}
-
-/* Romantic Display Page */
-.display-page{
-  text-align:center;
+img.preview{
+  width:100px;
+  margin:5px;
+  border-radius:10px;
 }
 
 .split{
   display:flex;
   gap:20px;
-  margin-top:20px;
+  flex-wrap:wrap;
 }
 
-.left, .right{
+.left,.right{
   flex:1;
-  background:#fff0f5;
+  background:white;
   padding:15px;
   border-radius:15px;
 }
 
-/* Secret Heart */
-.heart{
-  font-size:28px;
-  cursor:pointer;
-}
-
-/* Proposal Section */
-.proposal-box{
+.proposal{
+  text-align:center;
   margin-top:30px;
-  padding:20px;
-  background:#ffe6f2;
-  border-radius:20px;
-}
-
-.proposal-btn{
-  padding:12px 25px;
-  margin:10px;
-  font-size:16px;
-  border-radius:30px;
-}
-
-#celebration, #rejection{
-  display:none;
-  margin-top:20px;
 }
 
 .cartoons{
   font-size:60px;
-  animation: dance 0.6s infinite alternate;
+  animation:dance 0.5s infinite alternate;
 }
 
 @keyframes dance{
-  from{ transform: rotate(-10deg); }
-  to{ transform: rotate(10deg); }
+  from{transform:rotate(-10deg);}
+  to{transform:rotate(10deg);}
 }
 
-/* Confetti */
-.confetti{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-}
+#celebration,#rejection{display:none;}
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD PAGE -->
+<div class="heart-bg" id="heartBg"></div>
+
+<!-- PASSWORD -->
 <div class="container" id="passwordPage">
-  <h2>Enter Password 💖</h2>
-  <input type="password" id="passwordInput" placeholder="Enter Password">
-  <button onclick="checkPassword()">Enter</button>
+<h2>Enter Password 💖</h2>
+<input type="password" id="passwordInput">
+<button onclick="checkPassword()">Enter</button>
 </div>
 
-<!-- FORM SECTION -->
+<!-- FORM -->
 <div id="formSection" class="hidden">
-<div class="container">
-  <h2>Create Your Love Page 💕</h2>
+<div class="container step">
+<h2>Basic Details 💕</h2>
+<input id="partner" placeholder="Partner Name">
+<input id="sender" placeholder="Your Name">
+<input id="date" placeholder="Special Date">
+<input type="file" id="banner">
+<div class="nav">
+<button onclick="nextStep()">Next →</button>
+</div>
+</div>
 
-  <input id="partner" placeholder="Partner Name">
-  <input id="sender" placeholder="Your Name">
+<div class="container step hidden">
+<h2>Our 3 Love Stories 💌</h2>
+<textarea id="story1" placeholder="Love Story 1"></textarea>
+<textarea id="story2" placeholder="Love Story 2"></textarea>
+<textarea id="story3" placeholder="Love Story 3"></textarea>
+<div class="nav">
+<button onclick="prevStep()">Back</button>
+<button onclick="nextStep()">Next →</button>
+</div>
+</div>
 
-  <textarea id="letter" rows="4" placeholder="Write your love letter..."></textarea>
+<div class="container step hidden">
+<h2>Upload Memories 📸</h2>
+<input type="file" id="photos" multiple>
+<div id="preview"></div>
+<div class="nav">
+<button onclick="prevStep()">Back</button>
+<button onclick="nextStep()">Next →</button>
+</div>
+</div>
 
-  <textarea id="reasons" rows="3" placeholder="Why I love you (separate by comma)"></textarea>
-
-  <textarea id="dreams" rows="3" placeholder="Future bucket list (separate by comma)"></textarea>
-
-  <input id="secretMsg" placeholder="Secret hidden message">
-
-  <div class="nav">
-    <button onclick="generateLink()">Generate Romantic Link 💌</button>
-  </div>
+<div class="container step hidden">
+<h2>Love Letter & More 💖</h2>
+<textarea id="letter" placeholder="Love Letter"></textarea>
+<textarea id="reasons" placeholder="Why I love you (comma separated)"></textarea>
+<textarea id="dreams" placeholder="Future Bucket List (comma separated)"></textarea>
+<input id="secret" placeholder="Secret Hidden Message">
+<div class="nav">
+<button onclick="prevStep()">Back</button>
+<button onclick="generateLink()">Generate Romantic Link 💕</button>
+</div>
 </div>
 </div>
 
 <!-- DISPLAY PAGE -->
 <div id="displaySection" class="hidden">
-<div class="container display-page">
+<div class="container">
+<h2 id="title"></h2>
 
-  <h2 id="title"></h2>
+<p><b>Special Date:</b> <span id="showDate"></span></p>
 
-  <div class="split">
-    <div class="left">
-      <h3>💌 Love Letter</h3>
-      <p id="showLetter"></p>
-    </div>
+<h3>💌 Our Love Stories</h3>
+<p id="showStory1"></p>
+<p id="showStory2"></p>
+<p id="showStory3"></p>
 
-    <div class="right">
-      <h3>💖 Why I Love You</h3>
-      <ul id="showReasons"></ul>
+<div id="showImages"></div>
 
-      <h3>🌍 Our Future</h3>
-      <ul id="showDreams"></ul>
-    </div>
-  </div>
-
-  <div>
-    <span class="heart" onclick="secretClick()">❤️</span>
-    <p id="secretDisplay"></p>
-  </div>
-
-  <!-- Proposal -->
-  <div class="proposal-box">
-    <h2>Will You Be My Valentine? 💕</h2>
-
-    <button class="proposal-btn" onclick="sayYes()">YES 💖</button>
-    <button class="proposal-btn" id="noBtn" onclick="sayNo()">NO 😜</button>
-
-    <div id="celebration">
-      <h3>Yayyyyy!!! 💕🎉</h3>
-      <div class="cartoons">💃🕺</div>
-      <p>Forever together ❤️</p>
-    </div>
-
-    <div id="rejection">
-      <h3>Oh nooo 🥺</h3>
-      <div class="cartoons">😠😢</div>
-      <p>I will still love you forever 💔</p>
-    </div>
-  </div>
-
+<div class="split">
+<div class="left">
+<h3>Love Letter</h3>
+<p id="showLetter"></p>
+</div>
+<div class="right">
+<h3>Why I Love You</h3>
+<ul id="showReasons"></ul>
+<h3>Our Future</h3>
+<ul id="showDreams"></ul>
 </div>
 </div>
 
-<canvas class="confetti" id="confetti"></canvas>
+<div style="text-align:center;">
+<span style="font-size:30px;cursor:pointer;" onclick="secretClick()">❤️</span>
+<p id="secretDisplay"></p>
+</div>
+
+<div class="proposal">
+<h2>Will You Be My Valentine? 💕</h2>
+<button onclick="sayYes()">YES 💖</button>
+<button id="noBtn" onclick="sayNo()">NO 😜</button>
+
+<div id="celebration">
+<h3>Yayyyyy 💕</h3>
+<div class="cartoons">💃🕺</div>
+</div>
+
+<div id="rejection">
+<h3>Noooo 🥺</h3>
+<div class="cartoons">😠😢</div>
+</div>
+</div>
+
+</div>
+</div>
 
 <script>
 
+/* Floating hearts */
+for(let i=0;i<30;i++){
+let span=document.createElement("span");
+span.innerHTML="❤";
+span.style.left=Math.random()*100+"%";
+span.style.animationDuration=5+Math.random()*5+"s";
+document.getElementById("heartBg").appendChild(span);
+}
+
+let current=0;
 let secretCount=0;
+let uploadedImages=[];
 
-/* Password */
 function checkPassword(){
-  if(document.getElementById("passwordInput").value==="1904"){
-    document.getElementById("passwordPage").classList.add("hidden");
-
-    if(new URLSearchParams(window.location.search).get("data")){
-      loadData();
-    } else {
-      document.getElementById("formSection").classList.remove("hidden");
-    }
-
-  }else{
-    alert("Wrong Password!");
-  }
+if(passwordInput.value==="1904"){
+passwordPage.classList.add("hidden");
+if(new URLSearchParams(window.location.search).get("data")){
+loadData();
+}else{
+formSection.classList.remove("hidden");
+}
+}else{alert("Wrong Password");}
 }
 
-/* Generate Share Link */
-function generateLink(){
-  const data=btoa(JSON.stringify({
-    partner:partner.value,
-    sender:sender.value,
-    letter:letter.value,
-    reasons:reasons.value,
-    dreams:dreams.value,
-    secret:secretMsg.value
-  }));
-
-  const link=window.location.href.split("?")[0]+"?data="+data;
-  prompt("Copy this romantic link 💌",link);
+function nextStep(){
+let steps=document.querySelectorAll(".step");
+steps[current].classList.add("hidden");
+current++;
+steps[current].classList.remove("hidden");
 }
 
-/* Load Data */
-function loadData(){
-  document.getElementById("displaySection").classList.remove("hidden");
-
-  const params=new URLSearchParams(window.location.search);
-  const data=JSON.parse(atob(params.get("data")));
-
-  title.innerText=`${data.sender} ❤️ ${data.partner}`;
-  showLetter.innerText=data.letter;
-
-  data.reasons.split(",").forEach(r=>{
-    showReasons.innerHTML+=`<li>${r}</li>`;
-  });
-
-  data.dreams.split(",").forEach(d=>{
-    showDreams.innerHTML+=`<li>${d}</li>`;
-  });
-
-  window.secretMessage=data.secret;
+function prevStep(){
+let steps=document.querySelectorAll(".step");
+steps[current].classList.add("hidden");
+current--;
+steps[current].classList.remove("hidden");
 }
 
-/* Secret Heart */
-function secretClick(){
-  secretCount++;
-  if(secretCount==5){
-    secretDisplay.innerText=window.secretMessage;
-  }
+photos.addEventListener("change",function(){
+preview.innerHTML="";
+uploadedImages=[];
+Array.from(this.files).forEach(file=>{
+let reader=new FileReader();
+reader.onload=e=>{
+uploadedImages.push(e.target.result);
+preview.innerHTML+=`<img src="${e.target.result}" class="preview">`;
 }
-
-/* YES */
-function sayYes(){
-  document.getElementById("celebration").style.display="block";
-  document.getElementById("rejection").style.display="none";
-  startConfetti();
-}
-
-/* NO */
-function sayNo(){
-  document.getElementById("rejection").style.display="block";
-  document.getElementById("celebration").style.display="none";
-}
-
-/* Moving NO button */
-const noBtn=document.getElementById("noBtn");
-noBtn.addEventListener("mouseover",function(){
-  this.style.position="relative";
-  this.style.left=Math.random()*150-75+"px";
+reader.readAsDataURL(file);
+});
 });
 
-/* Simple Confetti */
-function startConfetti(){
-  const canvas=document.getElementById("confetti");
-  const ctx=canvas.getContext("2d");
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
+function generateLink(){
+const data=btoa(JSON.stringify({
+partner:partner.value,
+sender:sender.value,
+date:date.value,
+story1:story1.value,
+story2:story2.value,
+story3:story3.value,
+letter:letter.value,
+reasons:reasons.value,
+dreams:dreams.value,
+secret:secret.value,
+images:uploadedImages
+}));
 
-  let pieces=[];
-  for(let i=0;i<100;i++){
-    pieces.push({
-      x:Math.random()*canvas.width,
-      y:Math.random()*canvas.height,
-      r:Math.random()*6+2,
-      d:Math.random()*100
-    });
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle="pink";
-    pieces.forEach(p=>{
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fill();
-      p.y+=2;
-      if(p.y>canvas.height){ p.y=0; }
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
+const link=location.href.split("?")[0]+"?data="+data;
+prompt("Copy this link 💕",link);
 }
-</script>
 
+function loadData(){
+formSection.classList.add("hidden");
+displaySection.classList.remove("hidden");
+
+const data=JSON.parse(atob(new URLSearchParams(window.location.search).get("data")));
+
+title.innerText=data.sender+" ❤️ "+data.partner;
+showDate.innerText=data.date;
+showStory1.innerText=data.story1;
+showStory2.innerText=data.story2;
+showStory3.innerText=data.story3;
+showLetter.innerText=data.letter;
+
+data.reasons.split(",").forEach(r=>{
+showReasons.innerHTML+=`<li>${r}</li>`;
+});
+data.dreams.split(",").forEach(d=>{
+showDreams.innerHTML+=`<li>${d}</li>`;
+});
+data.images.forEach(img=>{
+showImages.innerHTML+=`<img src="${img}" class="preview">`;
+});
+window.secretMsg=data.secret;
+}
+
+function secretClick(){
+secretCount++;
+if(secretCount==5){
+secretDisplay.innerText=window.secretMsg;
+}
+}
+
+function sayYes(){
+celebration.style.display="block";
+rejection.style.display="none";
+}
+
+function sayNo(){
+rejection.style.display="block";
+celebration.style.display="none";
+}
+
+noBtn.addEventListener("mouseover",function(){
+this.style.position="relative";
+this.style.left=Math.random()*200-100+"px";
+});
+
+</script>
 </body>
 </html>
