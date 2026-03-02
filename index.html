@@ -8,7 +8,7 @@
 body{
     margin:0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #ffb6c1, #ff69b4);
+    background: linear-gradient(to bottom, #ffc0cb, #ff69b4);
     text-align:center;
     color:white;
     overflow-x:hidden;
@@ -55,7 +55,6 @@ button{
     position:fixed;
     bottom:-10px;
     animation:floatUp 8s linear infinite;
-    color:white;
 }
 
 @keyframes floatUp{
@@ -89,7 +88,7 @@ button{
     border-radius:25px;
 }
 
-/* Dance Animation */
+/* Dance */
 .dance{
     font-size:60px;
     animation:dance 0.5s infinite alternate;
@@ -99,21 +98,12 @@ button{
     from{transform:rotate(-15deg);}
     to{transform:rotate(15deg);}
 }
-
-.fadeIn{
-    animation:fadeIn 1.5s ease-in;
-}
-
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
-}
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD -->
+<!-- PASSWORD SCREEN -->
 <div id="passwordScreen">
     <h2>Enter Our Lucky Number 💖</h2>
     <input type="password" id="passwordInput" placeholder="Lucky Number">
@@ -121,7 +111,7 @@ button{
 </div>
 
 <!-- MAIN CONTENT -->
-<div id="mainContent" class="fadeIn">
+<div id="mainContent">
 
 <h1>Welcome My Love 💕</h1>
 
@@ -132,7 +122,7 @@ button{
 <h2>Our Love Story 💌</h2>
 <p>
 From strangers to forever 💖  
-Every smile, every laugh, every little fight made our bond stronger.  
+Every smile, every laugh made us stronger.  
 With you, life feels magical and peaceful.  
 You are my today, tomorrow and always. 💕
 </p>
@@ -149,10 +139,10 @@ You are my today, tomorrow and always. 💕
 
 <script>
 
-// 🔐 CHANGE THIS TO YOUR LUCKY NUMBER
-const correctPassword = "143";
+// 🔐 PASSWORD IS ALREADY SET TO 1904
+const correctPassword = "1904";
 
-// 📸 ADD YOUR PHOTO FILE NAMES HERE (ANY NAME)
+// 📸 Add photo file names here later
 const photos = [
     "photo1.jpg",
     "photo2.jpg",
@@ -162,7 +152,6 @@ const photos = [
     "photo6.jpg"
 ];
 
-// Display Photos Automatically
 const gallery = document.getElementById("photoGallery");
 photos.forEach(photo=>{
     const img=document.createElement("img");
@@ -173,7 +162,7 @@ photos.forEach(photo=>{
 // Password Check
 function checkPassword(){
     let entered=document.getElementById("passwordInput").value;
-    if(entered===correctPassword){
+    if(entered==="1904"){
         document.getElementById("passwordScreen").style.display="none";
         document.getElementById("mainContent").style.display="block";
         startHearts();
@@ -195,7 +184,7 @@ function startHearts(){
     },500);
 }
 
-// YES BUTTON EFFECT
+// YES Button Effect
 function sayYes(){
     document.body.style.background="#ff1493";
     document.getElementById("result").innerHTML=`
