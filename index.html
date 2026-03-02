@@ -7,25 +7,25 @@
 <style>
 body{
   margin:0;
-  font-family:Segoe UI;
-  background:#ffccdf;
+  font-family:'Segoe UI',sans-serif;
+  background:#ffcce6;
   overflow-x:hidden;
 }
 
-/* Floating Hearts Background */
+/* Floating Hearts */
 .heart-bg{
   position:fixed;
   width:100%;
   height:100%;
-  z-index:-1;
   pointer-events:none;
+  z-index:-1;
 }
 
 .heart-bg span{
   position:absolute;
   color:#ff4da6;
-  font-size:18px;
-  animation: float 8s linear infinite;
+  animation: float 10s linear infinite;
+  font-size:20px;
 }
 
 @keyframes float{
@@ -33,15 +33,14 @@ body{
   100%{transform:translateY(-10vh);opacity:0;}
 }
 
-/* Container */
 .container{
   width:90%;
-  max-width:850px;
+  max-width:800px;
   margin:40px auto;
   background:#ffe6f2;
   padding:25px;
   border-radius:20px;
-  box-shadow:0 8px 25px rgba(255,0,120,0.3);
+  box-shadow:0 8px 25px rgba(255,0,102,0.3);
 }
 
 h2{
@@ -68,7 +67,9 @@ button{
   font-weight:bold;
 }
 
-button:hover{opacity:0.8;}
+button:hover{
+  opacity:0.8;
+}
 
 .hidden{display:none;}
 .nav{text-align:right;}
@@ -92,13 +93,9 @@ img.preview{
   border-radius:15px;
 }
 
-/* Proposal */
 .proposal{
-  margin-top:50px;
   text-align:center;
-  padding:30px;
-  background:#ffb3d9;
-  border-radius:20px;
+  margin-top:30px;
 }
 
 .cartoons{
@@ -126,10 +123,8 @@ img.preview{
 <button onclick="checkPassword()">Enter</button>
 </div>
 
-<!-- FORM SECTION -->
+<!-- FORM -->
 <div id="formSection" class="hidden">
-
-<!-- Page 1 -->
 <div class="container step">
 <h2>Basic Details 💕</h2>
 <input id="partner" placeholder="Partner Name">
@@ -141,7 +136,6 @@ img.preview{
 </div>
 </div>
 
-<!-- Page 2 -->
 <div class="container step hidden">
 <h2>Our 3 Love Stories 💌</h2>
 <textarea id="story1" placeholder="Love Story 1"></textarea>
@@ -153,7 +147,6 @@ img.preview{
 </div>
 </div>
 
-<!-- Page 3 -->
 <div class="container step hidden">
 <h2>Upload Memories 📸</h2>
 <input type="file" id="photos" multiple>
@@ -164,7 +157,6 @@ img.preview{
 </div>
 </div>
 
-<!-- Page 4 -->
 <div class="container step hidden">
 <h2>Love Letter & More 💖</h2>
 <textarea id="letter" placeholder="Love Letter"></textarea>
@@ -176,14 +168,13 @@ img.preview{
 <button onclick="generateLink()">Generate Romantic Link 💕</button>
 </div>
 </div>
-
 </div>
 
-<!-- DISPLAY SECTION -->
+<!-- DISPLAY PAGE -->
 <div id="displaySection" class="hidden">
 <div class="container">
-
 <h2 id="title"></h2>
+
 <p><b>Special Date:</b> <span id="showDate"></span></p>
 
 <h3>💌 Our Love Stories</h3>
@@ -206,27 +197,25 @@ img.preview{
 </div>
 </div>
 
-<div style="text-align:center;margin-top:20px;">
+<div style="text-align:center;">
 <span style="font-size:30px;cursor:pointer;" onclick="secretClick()">❤️</span>
 <p id="secretDisplay"></p>
 </div>
 
-<!-- FINAL PROPOSAL (APPEARS LAST) -->
 <div class="proposal">
 <h2>Will You Be My Valentine? 💕</h2>
 <button onclick="sayYes()">YES 💖</button>
 <button id="noBtn" onclick="sayNo()">NO 😜</button>
 
 <div id="celebration">
-<h3>Yayyyy Forever 💕</h3>
+<h3>Yayyyyy 💕</h3>
 <div class="cartoons">💃🕺</div>
 </div>
 
 <div id="rejection">
-<h3>Nooo 🥺</h3>
+<h3>Noooo 🥺</h3>
 <div class="cartoons">😠😢</div>
 </div>
-
 </div>
 
 </div>
@@ -234,8 +223,8 @@ img.preview{
 
 <script>
 
-/* Floating Hearts */
-for(let i=0;i<40;i++){
+/* Floating hearts */
+for(let i=0;i<30;i++){
 let span=document.createElement("span");
 span.innerHTML="❤";
 span.style.left=Math.random()*100+"%";
@@ -247,7 +236,6 @@ let current=0;
 let secretCount=0;
 let uploadedImages=[];
 
-/* Password */
 function checkPassword(){
 if(passwordInput.value==="1904"){
 passwordPage.classList.add("hidden");
@@ -259,7 +247,6 @@ formSection.classList.remove("hidden");
 }else{alert("Wrong Password");}
 }
 
-/* Step Navigation */
 function nextStep(){
 let steps=document.querySelectorAll(".step");
 steps[current].classList.add("hidden");
@@ -274,7 +261,6 @@ current--;
 steps[current].classList.remove("hidden");
 }
 
-/* Image Upload */
 photos.addEventListener("change",function(){
 preview.innerHTML="";
 uploadedImages=[];
@@ -288,7 +274,6 @@ reader.readAsDataURL(file);
 });
 });
 
-/* Generate Link */
 function generateLink(){
 const data=btoa(JSON.stringify({
 partner:partner.value,
@@ -303,11 +288,11 @@ dreams:dreams.value,
 secret:secret.value,
 images:uploadedImages
 }));
+
 const link=location.href.split("?")[0]+"?data="+data;
-prompt("Copy this romantic link 💕",link);
+prompt("Copy this link 💕",link);
 }
 
-/* Load Data */
 function loadData(){
 formSection.classList.add("hidden");
 displaySection.classList.remove("hidden");
@@ -333,7 +318,6 @@ showImages.innerHTML+=`<img src="${img}" class="preview">`;
 window.secretMsg=data.secret;
 }
 
-/* Secret */
 function secretClick(){
 secretCount++;
 if(secretCount==5){
@@ -341,7 +325,6 @@ secretDisplay.innerText=window.secretMsg;
 }
 }
 
-/* Proposal */
 function sayYes(){
 celebration.style.display="block";
 rejection.style.display="none";
